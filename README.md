@@ -1,10 +1,10 @@
 # Train Yard v1.5 Infra Bundle
 
-This bundle solves one specific problem: bringing a new remote site online so it can join the existing thatonelab / that1lab / t1l network with minimal site-local work.
+This bundle solves one specific problem: bringing a new remote site online so it can join the existing t1l network with minimal site-local work.
 
 What the system offers:
 - two preconfigured remote-edge VMs for remote-site callback and EVPN extension
-- a stretched `vlan160` network carried from Tolusa into Train Yard
+- a stretched `vlan160` network carried from the existing t1l hub into Train Yard
 - one validation LXC so the site can prove reachability immediately after install
 - an install path that avoids in-guest configuration changes
 
