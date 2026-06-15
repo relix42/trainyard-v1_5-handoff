@@ -11,7 +11,13 @@ What a stretched L2 means here:
 - the `vlan160` subnet is presented at more than one site
 - remote-edge appliances carry that segment over the `t1l` overlay
 - a workload attached to the Train Yard downstream bridge behaves like another endpoint on the same extended network
-- only one downstream edge is active per site at a time; the paired edge is converged standby
+- one edge forwards traffic for the stretched segment at a time; the other stays ready as standby
+
+Gateway and internet behavior:
+- this bundle extends Layer 2 reachability; it does not turn Train Yard into an independent internet breakout site by itself
+- the stretched-segment gateway behavior is defined by the existing `t1l` network design, not by ad hoc guest changes at Train Yard
+- in the current model, Train Yard workloads on the stretched segment should behave like remote endpoints on the same `t1l` network, with egress and gateway policy controlled by the existing hub-side design
+- the remote-edge pair provides site attachment and failover for the stretched segment; it does not ask the installer to invent new per-host routing or NAT behavior
 
 What the system offers:
 - two preconfigured remote-edge VMs for remote-site callback and EVPN extension
