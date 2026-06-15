@@ -23,36 +23,28 @@ What is in the release:
 The resulting system should look like this at a high level:
 
 ```text
-                    Tolusa
-          +-------------------------+
-          | local edge A / edge B   |
-          | WG + BGP + EVPN hub     |
-          +-----------+-------------+
-                      |
-          stretched vlan160 over WG/EVPN
-                      |
-        ===================================
-                      |
-                  Train Yard
+                     Tolusa                               Train Yard
 
-      WAN A                               WAN B
-       |                                   |
-       |                                   |
-+------+-------+                   +-------+------+
-| edge-a-      |                   | edge-b-      |
-| trainyard    |                   | trainyard    |
-| active edge  |                   | standby edge |
-+------+-------+                   +-------+------+
-       |                                   |
-       +-------------+   +-----------------+
-                     |   |
-              vmbr160trainyard
-                     |
-         +-----------+------------+
-         | validation LXC         |
-         | trainyard-vlan160-check|
-         | 10.160.0.182/24        |
-         +------------------------+
+      WAN A                               WAN B         WAN A                               WAN B
+       |                                   |             |                                   |
+       |                                   |             |                                   |
++------+-------+                   +-------+------+ +----+---------+                 +-------+------+
+| local edge A |                   | local edge B | | edge-a-      |                 | edge-b-      |
+| t1l hub      |                   | t1l hub      | | trainyard    |                 | trainyard    |
++------+-------+                   +-------+------+ | active edge  |                 | standby edge |
+       |                                   |        +-------+------+                 +-------+------+
+       +-------------+   +-----------------+                |                                  |
+                     |   |                                  +-------------+   +----------------+
+               t1l local vlan160                                          |   |
+                     |   |                                          vmbr160trainyard
+                     |   |                                                 |
+        =================================== stretched vlan160 over WG/EVPN ===================================
+                                                                           |
+                                                              +------------+-------------+
+                                                              | validation LXC           |
+                                                              | trainyard-vlan160-check  |
+                                                              | 10.160.0.182/24          |
+                                                              +--------------------------+
 ```
 
 Operating rule:
