@@ -1,51 +1,19 @@
 # Train Yard v1.5 Infra Bundle
 
-This bundle extends the existing `t1l` network to a new remote site.
+## What This Is
 
-What that means in practical terms:
-- a host at Train Yard can live on the same stretched `vlan160` Layer 2 segment already used elsewhere in `t1l`
-- that host can be reached across the existing WireGuard, BGP, and EVPN overlay without bespoke per-host network setup
-- Train Yard becomes another remote site on the same operating model already proven at Blueflame
+This bundle adds Train Yard to the existing `t1l` stretched `vlan160` network using the same remote-edge pattern already proven at Blueflame.
 
-What a stretched L2 means here:
-- the `vlan160` subnet is presented at more than one site
-- remote-edge appliances carry that segment over the `t1l` overlay
-- a workload attached to the Train Yard downstream bridge behaves like another endpoint on the same extended network
-- one edge forwards traffic for the stretched segment at a time; the other stays ready as standby
+## What You Get
 
-Gateway and internet behavior:
-- this bundle extends Layer 2 reachability; it does not turn Train Yard into an independent internet breakout site by itself
-- the stretched-segment gateway behavior is defined by the existing `t1l` network design, not by ad hoc guest changes at Train Yard
-- in the current model, Train Yard workloads on the stretched segment should behave like remote endpoints on the same `t1l` network, with egress and gateway policy controlled by the existing hub-side design
-- the remote-edge pair provides site attachment and failover for the stretched segment; it does not ask the installer to invent new per-host routing or NAT behavior
-
-What the system offers:
 - two preconfigured remote-edge VMs for remote-site callback and EVPN extension
-- a stretched `vlan160` network carried from the existing `t1l` hub into Train Yard
-- the same remote-site pattern already proven at Blueflame
-- one validation LXC so the site can prove reachability immediately after install
+- one validation LXC on `10.160.0.182/24` for immediate reachability checks
+- a single-active remote-site attachment model with a paired standby edge
 - an install path that avoids in-guest configuration changes
 
-What Blueflame proves already:
-- the remote-edge pair model works on a real off-site Proxmox environment
-- the stretched `vlan160` segment is reachable through the overlay
-- bidirectional failover between paired remote edges has been proven
-- a real runtime workload on the remote stretched segment is reachable from the rest of `t1l`
+## If You're Automating
 
-What it means to bring Train Yard into the fold:
-- Train Yard becomes another remote `t1l` site using the same edge pattern as Blueflame
-- the validation LXC at Train Yard becomes the first on-site endpoint on the stretched segment
-- once installed, Train Yard can be validated against the same operational checks used at Blueflame
-
-If you already understand the goal and want to hand this off to automation, you can point an agent at `AGENTS.md` and let it proceed from there.
-
-What is in the release:
-- `t1l-trainyard-edge-a-nixos-25.11-standard-v1_5.qcow2`
-- `t1l-trainyard-edge-b-nixos-25.11-standard-v1_5.qcow2`
-- `t1l-trainyard-validation-vlan160.lxc.tar.zst`
-- `manifest.json`
-- `install.sh`
-- `SHA256SUMS`
+If you want to hand this off to automation, start with `AGENTS.md`.
 
 ## Target topology
 
@@ -97,6 +65,47 @@ Operating rule:
 - both edges should be powered on and converged
 - only one edge should be actively attached to the downstream stretched VLAN at a time
 - the validation LXC should sit on the same downstream bridge as the active edge
+
+## How This Network Behaves
+
+This bundle extends the existing `t1l` network to a new remote site.
+
+What that means in practical terms:
+- a host at Train Yard can live on the same stretched `vlan160` Layer 2 segment already used elsewhere in `t1l`
+- that host can be reached across the existing WireGuard, BGP, and EVPN overlay without bespoke per-host network setup
+- Train Yard becomes another remote site on the same operating model already proven at Blueflame
+
+What a stretched L2 means here:
+- the `vlan160` subnet is presented at more than one site
+- remote-edge appliances carry that segment over the `t1l` overlay
+- a workload attached to the Train Yard downstream bridge behaves like another endpoint on the same extended network
+- one edge forwards traffic for the stretched segment at a time; the other stays ready as standby
+
+Gateway and internet behavior:
+- this bundle extends Layer 2 reachability; it does not turn Train Yard into an independent internet breakout site by itself
+- the stretched-segment gateway behavior is defined by the existing `t1l` network design, not by ad hoc guest changes at Train Yard
+- in the current model, Train Yard workloads on the stretched segment should behave like remote endpoints on the same `t1l` network, with egress and gateway policy controlled by the existing hub-side design
+- the remote-edge pair provides site attachment and failover for the stretched segment; it does not ask the installer to invent new per-host routing or NAT behavior
+
+What Blueflame proves already:
+- the remote-edge pair model works on a real off-site Proxmox environment
+- the stretched `vlan160` segment is reachable through the overlay
+- bidirectional failover between paired remote edges has been proven
+- a real runtime workload on the remote stretched segment is reachable from the rest of `t1l`
+
+What it means to bring Train Yard into the fold:
+- Train Yard becomes another remote `t1l` site using the same edge pattern as Blueflame
+- the validation LXC at Train Yard becomes the first on-site endpoint on the stretched segment
+- once installed, Train Yard can be validated against the same operational checks used at Blueflame
+
+## What Is In The Release
+
+- `t1l-trainyard-edge-a-nixos-25.11-standard-v1_5.qcow2`
+- `t1l-trainyard-edge-b-nixos-25.11-standard-v1_5.qcow2`
+- `t1l-trainyard-validation-vlan160.lxc.tar.zst`
+- `manifest.json`
+- `install.sh`
+- `SHA256SUMS`
 
 ## Before you start
 
