@@ -1,6 +1,6 @@
 # Train Yard v1.5 Infra Bundle
 
-This bundle solves one specific problem: bringing a new remote site online so it can join the existing Tolusa network fabric with minimal site-local work.
+This bundle solves one specific problem: bringing a new remote site online so it can join the existing thatonelab / that1lab / t1l network with minimal site-local work.
 
 What the system offers:
 - two preconfigured remote-edge VMs for remote-site callback and EVPN extension
