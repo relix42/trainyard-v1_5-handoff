@@ -1,12 +1,14 @@
 # Train Yard v1.5 Infra Bundle
 
-This repository is the public handoff for bringing up the Train Yard remote site on the proven Tylium `v1.5` remote-edge model.
+This bundle solves one specific problem: bringing a new remote site online so it can join the existing Tolusa network fabric with minimal site-local work.
 
-What this bundle does:
-- boots two preconfigured remote-edge VMs
-- extends the stretched `vlan160` network from Tolusa into Train Yard
-- installs one validation LXC so reachability can be proven immediately
-- requires no in-guest configuration changes
+What the system offers:
+- two preconfigured remote-edge VMs for remote-site callback and EVPN extension
+- a stretched `vlan160` network carried from Tolusa into Train Yard
+- one validation LXC so the site can prove reachability immediately after install
+- an install path that avoids in-guest configuration changes
+
+If you already understand the goal and want to hand this off to automation, you can point an agent at `AGENTS.md` and let it proceed from there.
 
 What is in the release:
 - `t1l-trainyard-edge-a-nixos-25.11-standard-v1_5.qcow2`
