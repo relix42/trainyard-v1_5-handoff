@@ -16,6 +16,48 @@ What is in the release:
 - `install.sh`
 - `SHA256SUMS`
 
+## Target topology
+
+The resulting system should look like this at a high level:
+
+```text
+                    Tolusa
+          +-------------------------+
+          | local edge A / edge B   |
+          | WG + BGP + EVPN hub     |
+          +-----------+-------------+
+                      |
+          stretched vlan160 over WG/EVPN
+                      |
+        ===================================
+                      |
+                  Train Yard
+
+      WAN A                               WAN B
+       |                                   |
+       |                                   |
++------+-------+                   +-------+------+
+| edge-a-      |                   | edge-b-      |
+| trainyard    |                   | trainyard    |
+| active edge  |                   | standby edge |
++------+-------+                   +-------+------+
+       |                                   |
+       +-------------+   +-----------------+
+                     |   |
+              vmbr160trainyard
+                     |
+         +-----------+------------+
+         | validation LXC         |
+         | trainyard-vlan160-check|
+         | 10.160.0.182/24        |
+         +------------------------+
+```
+
+Operating rule:
+- both edges should be powered on and converged
+- only one edge should be actively attached to the downstream stretched VLAN at a time
+- the validation LXC should sit on the same downstream bridge as the active edge
+
 ## Before you start
 
 You need:
