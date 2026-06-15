@@ -5,6 +5,7 @@ This bundle solves one specific problem: bringing a new remote site online so it
 What the system offers:
 - two preconfigured remote-edge VMs for remote-site callback and EVPN extension
 - a stretched `vlan160` network carried from the existing t1l hub into Train Yard
+- the same remote-site pattern already proven at Blueflame
 - one validation LXC so the site can prove reachability immediately after install
 - an install path that avoids in-guest configuration changes
 
@@ -23,28 +24,45 @@ What is in the release:
 The resulting system should look like this at a high level:
 
 ```text
-                     Tolusa                               Train Yard
+                                               Tolusa
 
-      WAN A                               WAN B         WAN A                               WAN B
-       |                                   |             |                                   |
-       |                                   |             |                                   |
-+------+-------+                   +-------+------+ +----+---------+                 +-------+------+
-| local edge A |                   | local edge B | | edge-a-      |                 | edge-b-      |
-| t1l hub      |                   | t1l hub      | | trainyard    |                 | trainyard    |
-+------+-------+                   +-------+------+ | active edge  |                 | standby edge |
-       |                                   |        +-------+------+                 +-------+------+
-       +-------------+   +-----------------+                |                                  |
-                     |   |                                  +-------------+   +----------------+
-               t1l local vlan160                                          |   |
-                     |   |                                          vmbr160trainyard
-                     |   |                                                 |
-        =================================== stretched vlan160 over WG/EVPN ===================================
-                                                                           |
-                                                              +------------+-------------+
-                                                              | validation LXC           |
-                                                              | trainyard-vlan160-check  |
-                                                              | 10.160.0.182/24          |
-                                                              +--------------------------+
+                                WAN A                               WAN B
+                                 |                                   |
+                                 |                                   |
+                          +------+-------+                   +-------+------+
+                          | local edge A |                   | local edge B |
+                          | t1l hub      |                   | t1l hub      |
+                          +------+-------+                   +-------+------+
+                                 |                                   |
+                                 +-------------+   +-----------------+
+                                               |   |
+                                         t1l local vlan160
+                                               |   |
+                    ===========================+===+=========================== stretched vlan160 over WG/EVPN
+                                               |   |
+                           --------------------+   +--------------------
+                           |                                           |
+                           |                                           |
+                       Blueflame                                   Train Yard
+
+                 WAN A             WAN B                       WAN A             WAN B
+                  |                 |                           |                 |
+            +-----+-----+     +-----+-----+               +-----+-----+     +-----+-----+
+            | edge-a    |     | edge-b    |               | edge-a    |     | edge-b    |
+            | site2     |     | site2     |               | trainyard |     | trainyard |
+            | active or |     | standby   |               | active or |     | standby   |
+            | standby   |     |           |               | standby   |     |           |
+            +-----+-----+     +-----+-----+               +-----+-----+     +-----+-----+
+                  |                 |                           |                 |
+                  +--------+--------+                           +--------+--------+
+                           |                                             |
+                     vmbr160test                                  vmbr160trainyard
+                           |                                             |
+              +------------+-------------+                  +------------+-------------+
+              | validation endpoint      |                  | validation LXC           |
+              | 10.160.0.173 proven      |                  | trainyard-vlan160-check  |
+              | at Blueflame             |                  | 10.160.0.182/24          |
+              +--------------------------+                  +--------------------------+
 ```
 
 Operating rule:
