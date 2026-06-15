@@ -1,13 +1,35 @@
 # Train Yard v1.5 Infra Bundle
 
-This bundle solves one specific problem: bringing a new remote site online so it can join the existing t1l network with minimal site-local work.
+This bundle extends the existing `t1l` network to a new remote site.
+
+What that means in practical terms:
+- a host at Train Yard can live on the same stretched `vlan160` Layer 2 segment already used elsewhere in `t1l`
+- that host can be reached across the existing WireGuard, BGP, and EVPN overlay without bespoke per-host network setup
+- Train Yard becomes another remote site on the same operating model already proven at Blueflame
+
+What a stretched L2 means here:
+- the `vlan160` subnet is presented at more than one site
+- remote-edge appliances carry that segment over the `t1l` overlay
+- a workload attached to the Train Yard downstream bridge behaves like another endpoint on the same extended network
+- only one downstream edge is active per site at a time; the paired edge is converged standby
 
 What the system offers:
 - two preconfigured remote-edge VMs for remote-site callback and EVPN extension
-- a stretched `vlan160` network carried from the existing t1l hub into Train Yard
+- a stretched `vlan160` network carried from the existing `t1l` hub into Train Yard
 - the same remote-site pattern already proven at Blueflame
 - one validation LXC so the site can prove reachability immediately after install
 - an install path that avoids in-guest configuration changes
+
+What Blueflame proves already:
+- the remote-edge pair model works on a real off-site Proxmox environment
+- the stretched `vlan160` segment is reachable through the overlay
+- bidirectional failover between paired remote edges has been proven
+- a real runtime workload on the remote stretched segment is reachable from the rest of `t1l`
+
+What it means to bring Train Yard into the fold:
+- Train Yard becomes another remote `t1l` site using the same edge pattern as Blueflame
+- the validation LXC at Train Yard becomes the first on-site endpoint on the stretched segment
+- once installed, Train Yard can be validated against the same operational checks used at Blueflame
 
 If you already understand the goal and want to hand this off to automation, you can point an agent at `AGENTS.md` and let it proceed from there.
 
