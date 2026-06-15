@@ -1,0 +1,5 @@
+72690d0f23180608f9a2dadbd1d250336f8b61f89cbbbe26faa6c35e99b72631  t1l-trainyard-edge-a-nixos-25.11-standard-v1_5.qcow2
+a1909605209b6348bf057592ec04babd6dcbc77805468e44eac2727e980697ad  t1l-trainyard-edge-b-nixos-25.11-standard-v1_5.qcow2
+9df35f5bb7dc131a689b726519e5342cafe9b5488cbe678b7911c54f4d5e82cb  t1l-trainyard-validation-vlan160.lxc.tar.zst
+297f8b899c144b1c64dc25b71f78d994ffd23c36e13c1a257972dbdd1fc9d8a6  manifest.json
+6c9fbd329bd5633d3dd3b81d4a71646c740e50fdb908804d966aaf98c970ee49  install.sh

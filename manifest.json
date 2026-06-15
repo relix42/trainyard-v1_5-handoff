@@ -1,0 +1,51 @@
+{
+  "site_id": "trainyard",
+  "service_id": "vlan160",
+  "bundle_model": "v1.5-sealed-bundle",
+  "controller_model": "tolusa-hosted-supervised",
+  "state_authority": "nats-jetstream-kv",
+  "stretched_subnet": "10.160.0.0/24",
+  "vni": 10160,
+  "artifacts": {
+    "edge_a_qcow2": "t1l-trainyard-edge-a-nixos-25.11-standard-v1_5.qcow2",
+    "edge_b_qcow2": "t1l-trainyard-edge-b-nixos-25.11-standard-v1_5.qcow2",
+    "validation_lxc": "t1l-trainyard-validation-vlan160.lxc.tar.zst"
+  },
+  "edges": {
+    "edge-a-trainyard": {
+      "ddns": "edge-a-trainyard.t1l.xyz",
+      "wg_address": "172.31.160.20/32",
+      "wg_listen_port": 51838,
+      "vtep": "10.255.30.20/32",
+      "bridge_ip": "10.160.0.180/24",
+      "asn": 65180,
+      "vmid": 211
+    },
+    "edge-b-trainyard": {
+      "ddns": "edge-b-trainyard.t1l.xyz",
+      "wg_address": "172.31.160.21/32",
+      "wg_listen_port": 51839,
+      "vtep": "10.255.30.21/32",
+      "bridge_ip": "10.160.0.181/24",
+      "asn": 65181,
+      "vmid": 212
+    }
+  },
+  "workloads": {
+    "validation": {
+      "hostname": "trainyard-vlan160-check",
+      "ip": "10.160.0.182/24",
+      "ctid": 213
+    }
+  },
+  "installer_variables": [
+    "PVE_STORAGE",
+    "EDGE_A_VMID",
+    "EDGE_B_VMID",
+    "VALIDATION_CTID",
+    "WAN_BRIDGE_A",
+    "WAN_BRIDGE_B",
+    "EDGE_DOWNSTREAM_BRIDGE",
+    "WORKLOAD_BRIDGE"
+  ]
+}
