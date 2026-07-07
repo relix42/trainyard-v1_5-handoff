@@ -2,6 +2,25 @@
 
 ## What This Is
 
+## Get The Bundle
+
+If you are deploying this at the site, start from the public **GitHub Release**, not from the repository file list.
+
+- Deployment assets live on the tagged release page
+- Download all six release assets into one directory before installing
+- Use the repository files for review or rebuilding only, not as the primary deployment source
+
+Release page:
+- https://github.com/relix42/trainyard-v1_5-handoff/releases/tag/trainyard-v1_5-infra
+
+Required release assets:
+- `t1l-trainyard-edge-a-nixos-25.11-standard-v1_5.qcow2`
+- `t1l-trainyard-edge-b-nixos-25.11-standard-v1_5.qcow2`
+- `t1l-trainyard-validation-vlan160.lxc.tar.zst`
+- `manifest.json`
+- `install.sh`
+- `SHA256SUMS`
+
 This bundle adds Train Yard to the existing `t1l` stretched `vlan160` network using the same remote-edge pattern already proven at Blueflame.
 
 ## What You Get
@@ -146,7 +165,7 @@ Recommended first deployment mapping:
 
 ## Installation
 
-1. Download all release assets into one directory on the Train Yard Proxmox host.
+1. Open the tagged GitHub Release and download all release assets into one directory on the Train Yard Proxmox host.
 2. Verify checksums.
 3. Export the required install variables.
 4. Run `install.sh`.
