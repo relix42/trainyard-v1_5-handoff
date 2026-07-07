@@ -2,6 +2,14 @@
 
 This file is for operators, scripts, and agents automating Train Yard deployment.
 
+## Release First
+
+If you are deploying this bundle, start from the tagged **GitHub Release**, not from the repository file list.
+
+- Release URL: `https://github.com/relix42/trainyard-v1_5-handoff/releases/tag/trainyard-v1_5-infra`
+- Download all six assets into `BUNDLE_DIR` before running `install.sh`
+- Treat repository source as reference or rebuild material, not as the primary install source
+
 ## Objective
 
 Install the Train Yard `v1.5` infra bundle on a Proxmox host with:
